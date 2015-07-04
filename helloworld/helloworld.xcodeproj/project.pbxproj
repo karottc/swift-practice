@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0AA984081B45947100E5F72F /* testjson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA984071B45947100E5F72F /* testjson.swift */; };
 		0ACA29821B3FD28F0095C53C /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACA29811B3FD28F0095C53C /* main.swift */; };
+		0AD73B091B419E9D00250902 /* oop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD73B081B419E9D00250902 /* oop.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -23,8 +25,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0AA984071B45947100E5F72F /* testjson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = testjson.swift; sourceTree = "<group>"; };
 		0ACA297E1B3FD28F0095C53C /* helloworld */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = helloworld; sourceTree = BUILT_PRODUCTS_DIR; };
 		0ACA29811B3FD28F0095C53C /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		0AD73B081B419E9D00250902 /* oop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = oop.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +62,8 @@
 			isa = PBXGroup;
 			children = (
 				0ACA29811B3FD28F0095C53C /* main.swift */,
+				0AD73B081B419E9D00250902 /* oop.swift */,
+				0AA984071B45947100E5F72F /* testjson.swift */,
 			);
 			path = helloworld;
 			sourceTree = "<group>";
@@ -118,6 +124,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AA984081B45947100E5F72F /* testjson.swift in Sources */,
+				0AD73B091B419E9D00250902 /* oop.swift in Sources */,
 				0ACA29821B3FD28F0095C53C /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -236,6 +244,7 @@
 				0ACA29871B3FD28F0095C53C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
