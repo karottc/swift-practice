@@ -17,6 +17,7 @@
 		0A110C7B1B4AC5E400C3B2F4 /* MainTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A110C7A1B4AC5E400C3B2F4 /* MainTabViewController.swift */; };
 		0A110C7D1B4AC77A00C3B2F4 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A110C7C1B4AC77A00C3B2F4 /* MainViewController.swift */; };
 		0A110C7F1B4AC7DD00C3B2F4 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A110C7E1B4AC7DD00C3B2F4 /* SettingViewController.swift */; };
+		0A87B5701B4BEFE60007F757 /* ViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A87B56F1B4BEFE60007F757 /* ViewFactory.swift */; };
 		0AA5AE111B4AD26300A25203 /* ScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA5AE101B4AD26300A25203 /* ScoreView.swift */; };
 		0AA5AE141B4AD2E100A25203 /* ScoreViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA5AE131B4AD2E100A25203 /* ScoreViewProtocol.swift */; };
 /* End PBXBuildFile section */
@@ -55,6 +56,7 @@
 		0A110C7A1B4AC5E400C3B2F4 /* MainTabViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabViewController.swift; sourceTree = "<group>"; };
 		0A110C7C1B4AC77A00C3B2F4 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		0A110C7E1B4AC7DD00C3B2F4 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		0A87B56F1B4BEFE60007F757 /* ViewFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewFactory.swift; sourceTree = "<group>"; };
 		0AA5AE101B4AD26300A25203 /* ScoreView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScoreView.swift; sourceTree = "<group>"; };
 		0AA5AE131B4AD2E100A25203 /* ScoreViewProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScoreViewProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -118,6 +120,7 @@
 				0A110C7E1B4AC7DD00C3B2F4 /* SettingViewController.swift */,
 				0AA5AE101B4AD26300A25203 /* ScoreView.swift */,
 				0AA5AE131B4AD2E100A25203 /* ScoreViewProtocol.swift */,
+				0A87B56F1B4BEFE60007F757 /* ViewFactory.swift */,
 			);
 			path = game2048;
 			sourceTree = "<group>";
@@ -278,6 +281,7 @@
 				0A110C7D1B4AC77A00C3B2F4 /* MainViewController.swift in Sources */,
 				0AA5AE111B4AD26300A25203 /* ScoreView.swift in Sources */,
 				0AA5AE141B4AD2E100A25203 /* ScoreViewProtocol.swift in Sources */,
+				0A87B5701B4BEFE60007F757 /* ViewFactory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
