@@ -23,6 +23,10 @@ class MainViewController : UIViewController {
     // 保存背景图数据
     var backgrounds:Array<UIView>!
     
+    var gmodel:GameModelMatrix!
+    var score:ScoreView!
+    var bestscore:ScoreView!
+    
     init() {
         super.init(nibName:nil, bundle:nil)
         self.backgrounds = Array<UIView>()
@@ -41,6 +45,15 @@ class MainViewController : UIViewController {
         setupGameMap()
         
         setupScoreLabels()
+        
+        self.gmodel = GameModelMatrix(dimension: self.dimension)
+        
+        //for i in 0..<18 {
+        //    genNumber()
+        //}
+        //genNumber()
+        while genNumber() != 0 {
+        }
     }
     
     func setupGameMap() {
@@ -48,7 +61,7 @@ class MainViewController : UIViewController {
         var y:CGFloat = 150
         
         for i in 0..<dimension {
-            print(i)
+            //print(i)
             y = 150
             for j in 0..<dimension {
                 // 初始化视图
@@ -66,15 +79,78 @@ class MainViewController : UIViewController {
     }
     
     func setupScoreLabels() {
-        var score = ScoreView(stype: ScoreType.Common)
+        score = ScoreView(stype: ScoreType.Common)
         score.frame.origin = CGPointMake(50, 80)
         score.changeScore(value: 0)
         self.view.addSubview(score)
         
-        var bestscore = ScoreView(stype: ScoreType.Best)
+        bestscore = ScoreView(stype: ScoreType.Best)
         bestscore.frame.origin.x = 170
         bestscore.frame.origin.y = 80
         bestscore.changeScore(value: 0)
         self.view.addSubview(bestscore)
+    }
+    
+    func genNumber() -> Int {
+        // 用于确定随机数的概率
+        let randv = Int(arc4random_uniform(10))
+        //print(randv)
+        var seed:Int = 2
+        // 因为有10%的机会，出现1，所以这里是10%的机会给4
+        if 1 == randv {
+            seed = 4
+        }
+        // 随机生成行号和列号
+        let col = Int(arc4random_uniform(UInt32(dimension)))
+        let row = Int(arc4random_uniform(UInt32(dimension)))
+        
+        if gmodel.isFull() {
+            print("位置已经满了")
+            gmodel.printTiles()
+            return 0
+        }
+        if gmodel.setPosition(row, col: col, value: seed) == false {
+            return genNumber()
+        }
+        print("插入位置：\(row),\(col)")
+        // 执行后续操作
+        insertTile((row, col), value:seed)
+        return 2
+    }
+    
+    func insertTile(pos: (Int, Int), value: Int) {
+        let (row, col) = pos
+        
+        // 地图的起始位置是 50,150
+        let x = 50 + CGFloat(col) * (width + padding)
+        let y = 150 + CGFloat(row) * (width + padding)
+        
+        let tile = TileView(pos: CGPointMake(x, y), width:width, value:value)
+        self.view.addSubview(tile)
+        self.view.bringSubviewToFront(tile)
+        
+        // 先将数字块的大小置为原始尺寸的1/10
+        tile.layer.setAffineTransform(CGAffineTransformMakeScale(0.1, 0.1))
+        // 设置动画效果，动画时间长度1秒
+        UIView.animateWithDuration(1, delay: 0.01, options: UIViewAnimationOptions.TransitionNone, animations: {
+            () -> Void in
+            // 在动画中数字块有一个角度的旋转
+            tile.layer.setAffineTransform(CGAffineTransformMakeRotation(90))
+            },
+            completion: {
+                (finished:Bool) -> Void in
+                UIView.animateWithDuration(1, animations: {
+                    () -> Void in
+                    // 完成动画时，数字块复原
+                    tile.layer.setAffineTransform(CGAffineTransformIdentity)
+                })
+            })
+        
+        UIView.beginAnimations("animation", context: nil)
+        UIView.setAnimationDuration(2)
+        UIView.setAnimationCurve(UIViewAnimationCurve.EaseOut)
+        UIView.setAnimationTransition(UIViewAnimationTransition.FlipFromLeft, forView: self.view, cache: false)
+        //UIView.setAnimationTransition(<#T##transition: UIViewAnimationTransition##UIViewAnimationTransition#>, forView: <#T##UIView#>, cache: <#T##Bool#>)
+        UIView.commitAnimations()
     }
 }
