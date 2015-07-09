@@ -36,12 +36,14 @@ struct Matrix {
 class GameModelMatrix {
     var dimension:Int = 0
     var tiles:Matrix
+    var mtiles:Matrix  // 移动时的辅助副本
     
     // 由外部传入维度
     init(dimension:Int) {
         self.dimension = dimension
         
         self.tiles = Matrix(rows: self.dimension, columns: self.dimension)
+        self.mtiles = Matrix(rows: self.dimension, columns: self.dimension)
     }
     
     // 找出空位
@@ -93,4 +95,126 @@ class GameModelMatrix {
         tiles[row, col] = value
         return true
     }
+    
+    func reflowUp() {
+        //printTiles()
+        copyToMtiles()
+        
+        // 从最后一行开始往上找
+        // 向上滑，第一行不用动
+        for var i = dimension-1; i>0; i-- {
+            for j in 0..<dimension {
+                // 如果当前位置上有值，上一行没有值
+                if 0 == mtiles[i - 1, j] && mtiles[i, j] > 0 {
+                    // 把下一行的值复制到上一行
+                    mtiles[i - 1, j] = mtiles[i, j]
+                    mtiles[i, j] = 0
+                    
+                    // 移动这一行，后面的行如果有值，也应该跟上
+                    var k = i
+                    while ++k < dimension {
+                        if mtiles[k, j] > 0 {
+                            mtiles[k - 1, j] = mtiles[k, j]
+                            mtiles[k, j] = 0
+                        }
+                    }
+                }
+            }
+        }
+        copyFromMtiles()
+        printTiles()
+    }
+    func reflowDown() {
+        //printTiles()
+        copyToMtiles()
+        
+        // 从第一行开始往下
+        for i in 0..<self.dimension-1 {
+            for j in 0..<dimension {
+                // 如果当前位置上有值，下一行没有值
+                if 0 == mtiles[i + 1, j] && mtiles[i, j] > 0 {
+                    // 把下一行的值复制到上一行
+                    mtiles[i + 1, j] = mtiles[i, j]
+                    mtiles[i, j] = 0
+                    
+                    // 移动这一行，上面的行如果有值，也应该跟上
+                    var k = i
+                    while --k >= 0 {
+                        if mtiles[k, j] > 0 {
+                            mtiles[k + 1, j] = mtiles[k, j]
+                            mtiles[k, j] = 0
+                        }
+                    }
+                }
+            }
+        }
+        copyFromMtiles()
+        printTiles()
+    }
+    func reflowLeft() {
+        //printTiles()
+        copyToMtiles()
+        
+        // 从最右列开始移动
+        // 此处，i 表示列，j 表示行
+        for var i = dimension-1; i>0; i-- {
+            for j in 0..<dimension {
+                if 0 == mtiles[j, i - 1] && mtiles[j, i] > 0 {
+                    mtiles[j, i - 1] = mtiles[j, i]
+                    mtiles[j, i] = 0
+                    
+                    var k = i
+                    while ++k < dimension {
+                        if mtiles[j, k] > 0 {
+                            mtiles[j, k - 1] = mtiles[j, k]
+                            mtiles[j, k] = 0
+                        }
+                    }
+                }
+            }
+        }
+        copyFromMtiles()
+        printTiles()
+    }
+    func reflowRight() {
+        //printTiles()
+        copyToMtiles()
+        
+        // 从最左列开始移动
+        // 此处，i 表示列，j 表示行
+        for i in 0..<self.dimension-1 {
+            for j in 0..<dimension {
+                if 0 == mtiles[j, i + 1] && mtiles[j, i] > 0 {
+                    mtiles[j, i + 1] = mtiles[j, i]
+                    mtiles[j, i] = 0
+                    
+                    var k = i
+                    while --k >= 0 {
+                        if mtiles[j, k] > 0 {
+                            mtiles[j, k + 1] = mtiles[j, k]
+                            mtiles[j, k] = 0
+                        }
+                    }
+                }
+            }
+        }
+        copyFromMtiles()
+        printTiles()
+    }
+    
+    func copyToMtiles() {
+        for i in 0..<self.dimension {
+            for j in 0..<self.dimension {
+                mtiles[i, j] = tiles[i, j]
+            }
+        }
+    }
+    func copyFromMtiles() {
+        for i in 0..<self.dimension {
+            for j in 0..<self.dimension {
+                tiles[i, j] = mtiles[i, j]
+            }
+        }
+    }
+    
 }

@@ -48,12 +48,12 @@ class MainViewController : UIViewController {
         
         self.gmodel = GameModelMatrix(dimension: self.dimension)
         
-        //for i in 0..<18 {
-        //    genNumber()
-        //}
-        //genNumber()
-        while genNumber() != 0 {
+        for i in 0..<6 {
+            genNumber()
         }
+        //genNumber()
+        //while genNumber() != 0 {
+        //}
     }
     
     func setupGameMap() {
