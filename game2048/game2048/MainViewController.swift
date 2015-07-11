@@ -9,6 +9,13 @@
 import Foundation
 import UIKit
 
+enum Animation2048Type {
+    case None   //无动画
+    case New    // 新出现动画
+    case Merge  // 合并动画
+}
+
+
 class MainViewController : UIViewController {
     // 游戏方格纬度
     var dimension:Int = 4
@@ -56,7 +63,7 @@ class MainViewController : UIViewController {
         
         self.gmodel = GameModelMatrix(dimension: self.dimension)
         
-        for i in 0..<6 {
+        for i in 0..<2 {
             genNumber()
         }
         //genNumber()
@@ -122,11 +129,11 @@ class MainViewController : UIViewController {
         }
         print("插入位置：\(row),\(col)")
         // 执行后续操作
-        insertTile((row, col), value:seed)
+        insertTile((row, col), value:seed, atype: Animation2048Type.New)
         return 2
     }
     
-    func insertTile(pos: (Int, Int), value: Int) {
+    func insertTile(pos: (Int, Int), value: Int, atype: Animation2048Type) {
         let (row, col) = pos
         
         // 地图的起始位置是 50,150
@@ -140,17 +147,25 @@ class MainViewController : UIViewController {
         tiles[index] = tile
         tileVals[index] = value
         
-        // 先将数字块的大小置为原始尺寸的1/10
-        tile.layer.setAffineTransform(CGAffineTransformMakeScale(0.1, 0.1))
+        // 设置动画初始状态
+        if atype == Animation2048Type.None {
+            return
+        } else if atype == Animation2048Type.New {
+            tile.layer.setAffineTransform(CGAffineTransformMakeScale(0.1, 0.1))
+        } else if atype == Animation2048Type.Merge {
+            tile.layer.setAffineTransform(CGAffineTransformMakeScale(0.8, 0.8))
+        }
+        
         // 设置动画效果，动画时间长度1秒
-        UIView.animateWithDuration(1, delay: 0.01, options: UIViewAnimationOptions.TransitionNone, animations: {
+        UIView.animateWithDuration(0.3, delay: 0.01, options: UIViewAnimationOptions.TransitionNone, animations: {
             () -> Void in
             // 在动画中数字块有一个角度的旋转
-            tile.layer.setAffineTransform(CGAffineTransformMakeRotation(90))
+            //tile.layer.setAffineTransform(CGAffineTransformMakeRotation(90))
+            tile.layer.setAffineTransform(CGAffineTransformMakeScale(1, 1))
             },
             completion: {
                 (finished:Bool) -> Void in
-                UIView.animateWithDuration(1, animations: {
+                UIView.animateWithDuration(0.08, animations: {
                     () -> Void in
                     // 完成动画时，数字块复原
                     tile.layer.setAffineTransform(CGAffineTransformIdentity)
@@ -167,11 +182,37 @@ class MainViewController : UIViewController {
     
     // 根据数据模型重新生成UI
     func initUI() {
+        var key:NSIndexPath
+        var tile:TileView
+        var tileVal:Int
         for i in 0..<self.dimension {
             for j in 0..<self.dimension {
-                if self.gmodel.tiles[i, j] != 0 {
-                    insertTile((i, j), value: self.gmodel.tiles[i, j])
+                key = NSIndexPath(forRow: i, inSection: j)
+                // 原来界面没有值，数据模型中有值
+                if gmodel.tiles[i, j] > 0 && tileVals.indexForKey(key) == nil {
+                    insertTile((i, j), value: gmodel.tiles[i, j], atype: Animation2048Type.Merge)
                 }
+                // 原来界面中有值，现在模型中没有值
+                if gmodel.tiles[i, j] == 0 && tileVals.indexForKey(key) != nil {
+                    tile = tiles[key]!
+                    tile.removeFromSuperview()
+                    
+                    tiles.removeValueForKey(key)
+                    tileVals.removeValueForKey(key)
+                }
+                // 原来有值，现在也有值
+                if gmodel.tiles[i,j] > 0 && tileVals.indexForKey(key) != nil {
+                    tileVal = tileVals[key]!
+                    //如果不相等就替换
+                    if tileVal != gmodel.tiles[i, j] {
+                        tile = tiles[key]!
+                        tile.value = gmodel.tiles[i, j]
+                        tileVals[key] = gmodel.tiles[i, j]
+                    }
+                }
+                //if self.gmodel.tiles[i, j] != 0 {
+                //    insertTile((i, j), value: self.gmodel.tiles[i, j])
+                //}
             }
         }
     }

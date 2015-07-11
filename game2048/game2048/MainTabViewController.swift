@@ -95,7 +95,13 @@ class MainTabViewController:UITabBarController {
     }
     
     func reGenUI() {
-        self.viewMain.resetUI()
+        //self.viewMain.resetUI()
+        
         self.viewMain.initUI()
+        for i in 0..<2 {
+            if 0 == self.viewMain.genNumber() {
+                break
+            }
+        }
     }
 }
