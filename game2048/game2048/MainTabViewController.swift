@@ -67,22 +67,35 @@ class MainTabViewController:UITabBarController {
     
     func swipeUp() {
         print("swipeUp")
-        _showTip("上")
+        //_showTip("上")
         self.viewMain.gmodel.reflowUp()
+        self.viewMain.gmodel.mergeUp()
+        reGenUI()
     }
     func swipeDown() {
         print("swipeDown")
-        _showTip("下")
+        //_showTip("下")
         self.viewMain.gmodel.reflowDown()
+        self.viewMain.gmodel.mergeDown()
+        reGenUI()
     }
     func swipeLeft() {
         print("swipeLeft")
-        _showTip("左")
+        //_showTip("左")
         self.viewMain.gmodel.reflowLeft()
+        self.viewMain.gmodel.mergeLeft()
+        reGenUI()
     }
     func swipeRight() {
         print("swipeRight")
-        _showTip("右")
+        //_showTip("右")
         self.viewMain.gmodel.reflowRight()
+        self.viewMain.gmodel.mergeRight()
+        reGenUI()
+    }
+    
+    func reGenUI() {
+        self.viewMain.resetUI()
+        self.viewMain.initUI()
     }
 }

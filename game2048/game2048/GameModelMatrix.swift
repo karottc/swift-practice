@@ -124,6 +124,29 @@ class GameModelMatrix {
         copyFromMtiles()
         printTiles()
     }
+    // 合并
+    func mergeUp() {
+        copyToMtiles()
+        for i in 0..<self.dimension-1 {
+            for j in 0..<self.dimension {
+                if mtiles[i, j] > 0 && mtiles[i, j] == mtiles[i+1, j] {
+                    mtiles[i, j] = mtiles[i, j] * 2
+                    mtiles[i+1, j] = 0
+                    
+                    // 后面补起
+                    var k = i + 1
+                    while ++k < dimension {
+                        if mtiles[k, j] > 0 {
+                            mtiles[k-1, j] = mtiles[k, j]
+                            mtiles[k, j] = 0
+                        }
+                    }
+                }
+            }
+        }
+        copyFromMtiles()
+        printTiles()
+    }
     func reflowDown() {
         //printTiles()
         copyToMtiles()
@@ -142,6 +165,27 @@ class GameModelMatrix {
                     while --k >= 0 {
                         if mtiles[k, j] > 0 {
                             mtiles[k + 1, j] = mtiles[k, j]
+                            mtiles[k, j] = 0
+                        }
+                    }
+                }
+            }
+        }
+        copyFromMtiles()
+        printTiles()
+    }
+    func mergeDown() {
+        copyToMtiles()
+        for var i = self.dimension-1; i > 0; --i {
+            for j in 0..<self.dimension {
+                if mtiles[i, j] > 0 && mtiles[i, j] == mtiles[i-1,j] {
+                    mtiles[i,j] *= 2
+                    mtiles[i-1, j] = 0
+                    
+                    var k = i - 1
+                    while --k >= 0 {
+                        if mtiles[k, j] > 0 {
+                            mtiles[k+1, j] = mtiles[k, j]
                             mtiles[k, j] = 0
                         }
                     }
@@ -176,6 +220,28 @@ class GameModelMatrix {
         copyFromMtiles()
         printTiles()
     }
+    func mergeLeft() {
+        copyToMtiles()
+        // 从最左列开始移动
+        for i in 0..<self.dimension-1 {
+            for j in 0..<self.dimension {
+                if mtiles[j, i] > 0 && mtiles[j, i] == mtiles[j, i+1] {
+                    mtiles[j, i] *= 2
+                    mtiles[j, i+1] = 0
+                    
+                    var k = i + 1
+                    while ++k < self.dimension {
+                        if mtiles[j, k] > 0{
+                            mtiles[j, k-1] = mtiles[j, k]
+                            mtiles[j, k] = 0
+                        }
+                    }
+                }
+            }
+        }
+        copyFromMtiles()
+        printTiles()
+    }
     func reflowRight() {
         //printTiles()
         copyToMtiles()
@@ -192,6 +258,28 @@ class GameModelMatrix {
                     while --k >= 0 {
                         if mtiles[j, k] > 0 {
                             mtiles[j, k + 1] = mtiles[j, k]
+                            mtiles[j, k] = 0
+                        }
+                    }
+                }
+            }
+        }
+        copyFromMtiles()
+        printTiles()
+    }
+    func mergeRight() {
+        copyToMtiles()
+        // 从最右列开始合并
+        for var i = self.dimension-1; i > 0; --i {
+            for j in 0..<self.dimension {
+                if mtiles[j, i] > 0 && mtiles[j, i] == mtiles[j, i-1] {
+                    mtiles[j, i] *= 2
+                    mtiles[j, i-1] = 0
+                    
+                    var k = i - 1
+                    while --k >= 0 {
+                        if mtiles[j, k] > 0 {
+                            mtiles[j, k+1] = mtiles[j, k]
                             mtiles[j, k] = 0
                         }
                     }

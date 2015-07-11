@@ -27,12 +27,20 @@ class MainViewController : UIViewController {
     var score:ScoreView!
     var bestscore:ScoreView!
     
+    // 保存界面上的数字label
+    var tiles: Dictionary<NSIndexPath, TileView>!
+    // 保存界面上的值label
+    var tileVals: Dictionary<NSIndexPath, Int>!
+    
     init() {
         super.init(nibName:nil, bundle:nil)
         self.backgrounds = Array<UIView>()
+        
+        self.tiles = Dictionary()
+        self.tileVals = Dictionary()
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
@@ -128,6 +136,9 @@ class MainViewController : UIViewController {
         let tile = TileView(pos: CGPointMake(x, y), width:width, value:value)
         self.view.addSubview(tile)
         self.view.bringSubviewToFront(tile)
+        var index = NSIndexPath(forRow: row, inSection: col)
+        tiles[index] = tile
+        tileVals[index] = value
         
         // 先将数字块的大小置为原始尺寸的1/10
         tile.layer.setAffineTransform(CGAffineTransformMakeScale(0.1, 0.1))
@@ -146,11 +157,31 @@ class MainViewController : UIViewController {
                 })
             })
         
-        UIView.beginAnimations("animation", context: nil)
-        UIView.setAnimationDuration(2)
-        UIView.setAnimationCurve(UIViewAnimationCurve.EaseOut)
-        UIView.setAnimationTransition(UIViewAnimationTransition.FlipFromLeft, forView: self.view, cache: false)
+        //UIView.beginAnimations("animation", context: nil)
+        //UIView.setAnimationDuration(2)
+        //UIView.setAnimationCurve(UIViewAnimationCurve.EaseOut)
+        //UIView.setAnimationTransition(UIViewAnimationTransition.FlipFromLeft, forView: self.view, cache: false)
         //UIView.setAnimationTransition(<#T##transition: UIViewAnimationTransition##UIViewAnimationTransition#>, forView: <#T##UIView#>, cache: <#T##Bool#>)
-        UIView.commitAnimations()
+        //UIView.commitAnimations()
+    }
+    
+    // 根据数据模型重新生成UI
+    func initUI() {
+        for i in 0..<self.dimension {
+            for j in 0..<self.dimension {
+                if self.gmodel.tiles[i, j] != 0 {
+                    insertTile((i, j), value: self.gmodel.tiles[i, j])
+                }
+            }
+        }
+    }
+    
+    // 将所有数字从地图上移除
+    func resetUI() {
+        for (key, tile) in tiles {
+            tile.removeFromSuperview()
+        }
+        tiles.removeAll(keepCapacity: true)
+        tileVals.removeAll(keepCapacity: true)
     }
 }

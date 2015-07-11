@@ -48,7 +48,7 @@ class TileView:UIView {
         backgroundColor = colorMap[value]
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 

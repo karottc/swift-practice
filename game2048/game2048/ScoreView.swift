@@ -38,7 +38,7 @@ class ScoreView: UIView, ScoreViewProtocol {
         self.addSubview(label)
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder:aDecoder)
     }
     
