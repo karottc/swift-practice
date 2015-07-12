@@ -18,8 +18,12 @@
 		0A110C7B1B4AC5E400C3B2F4 /* MainTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A110C7A1B4AC5E400C3B2F4 /* MainTabViewController.swift */; };
 		0A110C7D1B4AC77A00C3B2F4 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A110C7C1B4AC77A00C3B2F4 /* MainViewController.swift */; };
 		0A110C7F1B4AC7DD00C3B2F4 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A110C7E1B4AC7DD00C3B2F4 /* SettingViewController.swift */; };
+		0A7BC6171B5141AE00189B36 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7BC6161B5141AE00189B36 /* UserModel.swift */; };
 		0A87B5701B4BEFE60007F757 /* ViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A87B56F1B4BEFE60007F757 /* ViewFactory.swift */; };
 		0A87B5721B4C31E30007F757 /* GameModelMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A87B5711B4C31E30007F757 /* GameModelMatrix.swift */; };
+		0A8C19C61B514E1900D6CA44 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A8C19C51B514E1900D6CA44 /* libsqlite3.dylib */; };
+		0A8C19C91B515B0600D6CA44 /* SQLiteDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8C19C81B515B0600D6CA44 /* SQLiteDB.swift */; };
+		0A8C19CB1B51648A00D6CA44 /* String-Extras.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8C19CA1B51648A00D6CA44 /* String-Extras.swift */; };
 		0AA5AE111B4AD26300A25203 /* ScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA5AE101B4AD26300A25203 /* ScoreView.swift */; };
 		0AA5AE141B4AD2E100A25203 /* ScoreViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA5AE131B4AD2E100A25203 /* ScoreViewProtocol.swift */; };
 /* End PBXBuildFile section */
@@ -59,8 +63,13 @@
 		0A110C7A1B4AC5E400C3B2F4 /* MainTabViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabViewController.swift; sourceTree = "<group>"; };
 		0A110C7C1B4AC77A00C3B2F4 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		0A110C7E1B4AC7DD00C3B2F4 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		0A7BC6161B5141AE00189B36 /* UserModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		0A87B56F1B4BEFE60007F757 /* ViewFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewFactory.swift; sourceTree = "<group>"; };
 		0A87B5711B4C31E30007F757 /* GameModelMatrix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameModelMatrix.swift; sourceTree = "<group>"; };
+		0A8C19C51B514E1900D6CA44 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = ../../../../../../usr/lib/libsqlite3.dylib; sourceTree = "<group>"; };
+		0A8C19C71B51558D00D6CA44 /* bridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bridge.h; sourceTree = "<group>"; };
+		0A8C19C81B515B0600D6CA44 /* SQLiteDB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteDB.swift; sourceTree = "<group>"; };
+		0A8C19CA1B51648A00D6CA44 /* String-Extras.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String-Extras.swift"; sourceTree = "<group>"; };
 		0AA5AE101B4AD26300A25203 /* ScoreView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScoreView.swift; sourceTree = "<group>"; };
 		0AA5AE131B4AD2E100A25203 /* ScoreViewProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScoreViewProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -70,6 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A8C19C61B514E1900D6CA44 /* libsqlite3.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,6 +103,7 @@
 		0A0690CD1B4A05B400629637 = {
 			isa = PBXGroup;
 			children = (
+				0A8C19C51B514E1900D6CA44 /* libsqlite3.dylib */,
 				0A0690D81B4A05B400629637 /* game2048 */,
 				0A0690ED1B4A05B400629637 /* game2048Tests */,
 				0A0690F81B4A05B400629637 /* game2048UITests */,
@@ -113,8 +124,12 @@
 		0A0690D81B4A05B400629637 /* game2048 */ = {
 			isa = PBXGroup;
 			children = (
+				0A8C19C81B515B0600D6CA44 /* SQLiteDB.swift */,
 				0A0690D91B4A05B400629637 /* AppDelegate.swift */,
 				0A0690DB1B4A05B400629637 /* ViewController.swift */,
+				0A8C19C71B51558D00D6CA44 /* bridge.h */,
+				0A7BC6161B5141AE00189B36 /* UserModel.swift */,
+				0A8C19CA1B51648A00D6CA44 /* String-Extras.swift */,
 				0A0690DD1B4A05B400629637 /* Main.storyboard */,
 				0A0690E01B4A05B400629637 /* Assets.xcassets */,
 				0A0690E21B4A05B400629637 /* LaunchScreen.storyboard */,
@@ -282,6 +297,7 @@
 			files = (
 				0A110C7F1B4AC7DD00C3B2F4 /* SettingViewController.swift in Sources */,
 				0A0690DC1B4A05B400629637 /* ViewController.swift in Sources */,
+				0A8C19CB1B51648A00D6CA44 /* String-Extras.swift in Sources */,
 				0A0690DA1B4A05B400629637 /* AppDelegate.swift in Sources */,
 				0A110C7B1B4AC5E400C3B2F4 /* MainTabViewController.swift in Sources */,
 				0A110C7D1B4AC77A00C3B2F4 /* MainViewController.swift in Sources */,
@@ -289,7 +305,9 @@
 				0A87B5721B4C31E30007F757 /* GameModelMatrix.swift in Sources */,
 				0AA5AE141B4AD2E100A25203 /* ScoreViewProtocol.swift in Sources */,
 				0A013AB81B4D47DF00EFD6DB /* TileView.swift in Sources */,
+				0A8C19C91B515B0600D6CA44 /* SQLiteDB.swift in Sources */,
 				0A87B5701B4BEFE60007F757 /* ViewFactory.swift in Sources */,
+				0A7BC6171B5141AE00189B36 /* UserModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -439,6 +457,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.karottc.game2048;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = game2048/bridge.h;
 			};
 			name = Debug;
 		};
