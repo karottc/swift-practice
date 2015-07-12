@@ -69,6 +69,8 @@ class MainViewController : UIViewController {
         //genNumber()
         //while genNumber() != 0 {
         //}
+        
+        setupSwipeGuestures()
     }
     
     func setupGameMap() {
@@ -104,6 +106,75 @@ class MainViewController : UIViewController {
         bestscore.frame.origin.y = 80
         bestscore.changeScore(value: 0)
         self.view.addSubview(bestscore)
+    }
+    
+    func setupSwipeGuestures() {
+        // 监控向上的方向，相应的处理方法swipeup
+        let upSwipe = UISwipeGestureRecognizer(target: self, action: Selector("swipeUp"))
+        upSwipe.numberOfTouchesRequired = 1
+        upSwipe.direction = UISwipeGestureRecognizerDirection.Up
+        self.view.addGestureRecognizer(upSwipe)
+        // 监控向下的方向
+        let downSwipe = UISwipeGestureRecognizer(target: self, action: Selector("swipeDown"))
+        downSwipe.numberOfTouchesRequired = 1
+        downSwipe.direction = UISwipeGestureRecognizerDirection.Down
+        self.view.addGestureRecognizer(downSwipe)
+        
+        let leftSwipe = UISwipeGestureRecognizer(target: self, action: Selector("swipeLeft"))
+        leftSwipe.numberOfTouchesRequired = 1
+        leftSwipe.direction = UISwipeGestureRecognizerDirection.Left
+        self.view.addGestureRecognizer(leftSwipe)
+        
+        let rightSwipe = UISwipeGestureRecognizer(target: self, action: Selector("swipeRight"))
+        rightSwipe.numberOfTouchesRequired = 1
+        rightSwipe.direction = UISwipeGestureRecognizerDirection.Right
+        self.view.addGestureRecognizer(rightSwipe)
+    }
+    func _showTip(direction:String) {
+        let alertcontroller = UIAlertController(title: "提示", message: "你刚刚向\(direction)滑动了！", preferredStyle: UIAlertControllerStyle.Alert)
+        alertcontroller.addAction(UIAlertAction(title: "确定", style:UIAlertActionStyle.Default, handler:nil))
+        self.presentViewController(alertcontroller, animated: true, completion: nil)
+    }
+    
+    func swipeUp() {
+        print("swipeUp")
+        //_showTip("上")
+        self.gmodel.reflowUp()
+        self.gmodel.mergeUp()
+        reGenUI()
+    }
+    func swipeDown() {
+        print("swipeDown")
+        //_showTip("下")
+        self.gmodel.reflowDown()
+        self.gmodel.mergeDown()
+        reGenUI()
+    }
+    func swipeLeft() {
+        print("swipeLeft")
+        //_showTip("左")
+        self.gmodel.reflowLeft()
+        self.gmodel.mergeLeft()
+        reGenUI()
+    }
+    func swipeRight() {
+        print("swipeRight")
+        //_showTip("右")
+        self.gmodel.reflowRight()
+        self.gmodel.mergeRight()
+        reGenUI()
+    }
+    
+    func reGenUI() {
+        //self.viewMain.resetUI()
+        
+        self.initUI()
+        //for i in 0..<2 {
+        //    if 0 == self.genNumber() {
+        //        break
+        //    }
+        //}
+        genNumber()
     }
     
     func genNumber() -> Int {

@@ -11,6 +11,9 @@ import UIKit
 
 // 下面有一处需要传值，所以必须继承这个class：UITextFieldDelegate
 class SettingViewController: UIViewController, UITextFieldDelegate {
+    var txtNum:UITextField!
+    var segDimension:UISegmentedControl!
+    var mainview:MainViewController!
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.whiteColor()
@@ -20,7 +23,7 @@ class SettingViewController: UIViewController, UITextFieldDelegate {
     
     func setupControls() {
         //var txtNum = ViewFactory.createTextField("", action:"numChanged", sender: self)
-        var txtNum = ViewFactory.createTextField("", action:Selector("numChanged"), sender:self)
+        txtNum = ViewFactory.createTextField("", action:Selector("numChanged"), sender:self)
         txtNum.frame = CGRect(x: 80, y: 100, width: 200, height: 30)
         txtNum.returnKeyType = UIReturnKeyType.Done
         
@@ -31,7 +34,7 @@ class SettingViewController: UIViewController, UITextFieldDelegate {
         self.view.addSubview(labelNum)
         
         //创建分段单选控件
-        var segDimension = ViewFactory.createSegment(["3x3", "4x4", "5x5"], action:"dimensionChanged:", sender:self)
+        segDimension = ViewFactory.createSegment(["3x3", "4x4", "5x5"], action:"dimensionChanged:", sender:self)
         
         segDimension.frame = CGRect(x: 80, y: 200, width: 200, height: 30)
         
@@ -42,5 +45,10 @@ class SettingViewController: UIViewController, UITextFieldDelegate {
         let labelDm = ViewFactory.createLabel("维度：")
         labelDm.frame = CGRect(x: 20, y: 200, width: 60, height: 30)
         self.view.addSubview(labelDm)
+    }
+    
+    func dimensionChanged(sender: SettingViewController) {
+        var setVals = [3, 4, 5]
+        //mainview
     }
 }
