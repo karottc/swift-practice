@@ -61,7 +61,7 @@ class MainViewController : UIViewController {
         
         setupScoreLabels()
         
-        self.gmodel = GameModelMatrix(dimension: self.dimension)
+        self.gmodel = GameModelMatrix(dimension: self.dimension, score:score, bestscore:bestscore)
         
         for i in 0..<2 {
             genNumber()
@@ -77,7 +77,7 @@ class MainViewController : UIViewController {
         print("reset")
         resetUI()
         gmodel.dimension = self.dimension
-        setupGameMap()
+
         gmodel.initTiles()
         for i in 0..<2 {
             self.genNumber()
@@ -113,7 +113,7 @@ class MainViewController : UIViewController {
         self.view.addSubview(score)
         
         bestscore = ScoreView(stype: ScoreType.Best)
-        bestscore.frame.origin.x = 170
+        bestscore.frame.origin.x = 300
         bestscore.frame.origin.y = 80
         bestscore.changeScore(value: 0)
         self.view.addSubview(bestscore)
@@ -307,5 +307,10 @@ class MainViewController : UIViewController {
         for background in backgrounds {
             background.removeFromSuperview()
         }
+        
+        setupGameMap()
+        
+        score.changeScore(value: 0)
+        self.gmodel.score = 0
     }
 }

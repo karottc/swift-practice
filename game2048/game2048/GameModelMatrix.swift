@@ -38,9 +38,18 @@ class GameModelMatrix {
     var tiles:Matrix
     var mtiles:Matrix  // 移动时的辅助副本
     
+    var scoredelegate:ScoreViewProtocol!
+    var bestscoredelegate:ScoreViewProtocol!
+    
+    var score:Int = 0
+    var bestscore:Int = 0
+    
     // 由外部传入维度
-    init(dimension:Int) {
+    init(dimension:Int, score: ScoreViewProtocol, bestscore:ScoreViewProtocol) {
         self.dimension = dimension
+        
+        self.scoredelegate = score
+        self.bestscoredelegate = bestscore
         
         self.tiles = Matrix(rows: self.dimension, columns: self.dimension)
         self.mtiles = Matrix(rows: self.dimension, columns: self.dimension)
@@ -138,6 +147,8 @@ class GameModelMatrix {
                     mtiles[i, j] = mtiles[i, j] * 2
                     mtiles[i+1, j] = 0
                     
+                    changeScore(mtiles[i, j])
+                    
                     // 后面补起
                     var k = i + 1
                     while ++k < dimension {
@@ -187,6 +198,8 @@ class GameModelMatrix {
                     mtiles[i,j] *= 2
                     mtiles[i-1, j] = 0
                     
+                    changeScore(mtiles[i, j])
+                    
                     var k = i - 1
                     while --k >= 0 {
                         if mtiles[k, j] > 0 {
@@ -234,6 +247,8 @@ class GameModelMatrix {
                     mtiles[j, i] *= 2
                     mtiles[j, i+1] = 0
                     
+                    changeScore(mtiles[j, i])
+                    
                     var k = i + 1
                     while ++k < self.dimension {
                         if mtiles[j, k] > 0{
@@ -280,6 +295,7 @@ class GameModelMatrix {
                 if mtiles[j, i] > 0 && mtiles[j, i] == mtiles[j, i-1] {
                     mtiles[j, i] *= 2
                     mtiles[j, i-1] = 0
+                    changeScore(mtiles[j, i])
                     
                     var k = i - 1
                     while --k >= 0 {
@@ -308,6 +324,15 @@ class GameModelMatrix {
                 tiles[i, j] = mtiles[i, j]
             }
         }
+    }
+    
+    func changeScore(s:Int) {
+        score += s
+        if score >= bestscore {
+            bestscore = score
+            bestscoredelegate.changeScore(value: bestscore)
+        }
+        scoredelegate.changeScore(value: score)
     }
     
 }

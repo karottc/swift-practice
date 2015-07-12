@@ -12,7 +12,7 @@ import UIKit
 class ScoreView: UIView, ScoreViewProtocol {
     var label:UILabel!
     
-    let defaultFrame = CGRectMake(0, 0, 100, 30)
+    let defaultFrame = CGRectMake(0, 0, 200, 30)
     
     var stype:String!   // 显示最高分还是分数
     
