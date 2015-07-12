@@ -46,6 +46,11 @@ class GameModelMatrix {
         self.mtiles = Matrix(rows: self.dimension, columns: self.dimension)
     }
     
+    func initTiles() {
+        self.tiles = Matrix(rows: self.dimension, columns: self.dimension)
+        self.mtiles = Matrix(rows: self.dimension, columns: self.dimension)
+    }
+    
     // 找出空位
     func emptyPositions() -> [Int] {
         var emptytiles = Array<Int>()

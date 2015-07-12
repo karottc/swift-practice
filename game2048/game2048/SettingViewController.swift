@@ -14,6 +14,20 @@ class SettingViewController: UIViewController, UITextFieldDelegate {
     var txtNum:UITextField!
     var segDimension:UISegmentedControl!
     var mainview:MainViewController!
+    
+    required init?(coder aDecoder: NSCoder!) {
+        super.init(coder: aDecoder)
+    }
+    
+    override init(nibName nibNameOrNil: String!, bundle nibBundleOrNil: NSBundle!) {
+        super.init(nibName:nibNameOrNil, bundle:nibBundleOrNil)
+    }
+    
+    convenience init(mainview:MainViewController) {
+        self.init(nibName:nil, bundle:nil)
+        self.mainview = mainview
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.whiteColor()
@@ -49,6 +63,13 @@ class SettingViewController: UIViewController, UITextFieldDelegate {
     
     func dimensionChanged(sender: SettingViewController) {
         var setVals = [3, 4, 5]
-        //mainview
+        mainview.dimension = setVals[segDimension.selectedSegmentIndex]
+        if 5 == mainview.dimension {
+            mainview.width = 100
+        }
+        mainview.resetTapped()
+        // 保存维度数据到本地SQLite数据库
+        //let usermodel = UserModel()
+        //usermodel.save_dimension(mainview.dimension)
     }
 }

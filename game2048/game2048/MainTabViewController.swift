@@ -22,7 +22,7 @@ class MainTabViewController:UITabBarController {
         viewMain = MainViewController()
         viewMain.title = "2048"
         
-        viewSetting = SettingViewController()
+        viewSetting = SettingViewController(mainview: viewMain)
         viewSetting.title = "设置"
         
         // 分别声明两个视图控制器

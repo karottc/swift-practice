@@ -73,6 +73,17 @@ class MainViewController : UIViewController {
         setupSwipeGuestures()
     }
     
+    func resetTapped() {
+        print("reset")
+        resetUI()
+        gmodel.dimension = self.dimension
+        setupGameMap()
+        gmodel.initTiles()
+        for i in 0..<2 {
+            self.genNumber()
+        }
+    }
+    
     func setupGameMap() {
         var x:CGFloat = 50
         var y:CGFloat = 150
@@ -281,9 +292,6 @@ class MainViewController : UIViewController {
                         tileVals[key] = gmodel.tiles[i, j]
                     }
                 }
-                //if self.gmodel.tiles[i, j] != 0 {
-                //    insertTile((i, j), value: self.gmodel.tiles[i, j])
-                //}
             }
         }
     }
@@ -295,5 +303,9 @@ class MainViewController : UIViewController {
         }
         tiles.removeAll(keepCapacity: true)
         tileVals.removeAll(keepCapacity: true)
+        
+        for background in backgrounds {
+            background.removeFromSuperview()
+        }
     }
 }
