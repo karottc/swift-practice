@@ -16,12 +16,16 @@ class UserModel {
     class func get_uuid() -> String {
         var userid = NSUserDefaults.standardUserDefaults().stringArrayForKey("swift2048bykarottc")
         if userid != nil {
+            print("first uuid\(userid![0])")
             return userid![0]
         }
         var uuid_ref = CFUUIDCreate(nil)
         var uuid_string_ref = CFUUIDCreateString(nil, uuid_ref)
         var uuid:String = NSString(format: uuid_string_ref) as String
         NSUserDefaults.standardUserDefaults().setObject(uuid, forKey: "swift2048bykarottc")
+        print("second uuid \(uuid)")
+        // 不知道什么原因，现在每次生成的UUID都不一样
+        uuid = "E27E608A-7DD9-4DDC-8C1D-64DEBDDDF42E"
         return uuid
     }
     
@@ -39,12 +43,13 @@ class UserModel {
         if data.count == 0 || data[0].data["dimension"]!.asInt() == 0 {
             var sql = "INSERT INTO userdata(userid, dimension, maxnum, red, green, blue, alpha) VALUES('\(userid)', \(dimension), \(maxnum), \(red), \(green), \(blue), \(alpha))"
             db.execute(sql)
+            print(sql)
         }
     }
     
     init() {
-        //db = SQLiteDB.sharedInstance("data.db")
-        db = SQLiteDB.sharedInstance()
+        db = SQLiteDB.sharedInstance("data2.db")
+        //db = SQLiteDB.sharedInstance()
         db.execute("CREATE table if not exists userdata(userid varchar(64) primary key, dimension integer, maxnum integer, red integer, green integer, blue integer, alpha integer)")
     }
     
