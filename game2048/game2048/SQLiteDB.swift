@@ -254,6 +254,7 @@ private let SQLITE_TRANSIENT = unsafeBitCast(-1, sqlite3_destructor_type.self)
 			// The database does not exist, so copy to Documents directory
 			if let from = NSBundle.mainBundle().resourcePath?.stringByAppendingPathComponent(dbName) {
 				var error:NSError?
+                print("copy from: \(from)")
                 do {
                     try fm.copyItemAtPath(from, toPath: path)
                     //if bflag != nil {
@@ -261,9 +262,9 @@ private let SQLITE_TRANSIENT = unsafeBitCast(-1, sqlite3_destructor_type.self)
                         //print("Error - \(error!.localizedDescription)")
                         return
                     //}
-                } catch {
-                    print("error!!!")
-                    return
+                } catch let err as NSError {
+                    print("error!!!: \(err.description)")
+                    //return
                 }
 			}
 		}

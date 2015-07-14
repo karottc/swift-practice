@@ -43,7 +43,8 @@ class UserModel {
     }
     
     init() {
-        db = SQLiteDB.sharedInstance("data.db")
+        //db = SQLiteDB.sharedInstance("data.db")
+        db = SQLiteDB.sharedInstance()
         db.execute("CREATE table if not exists userdata(userid varchar(64) primary key, dimension integer, maxnum integer, red integer, green integer, blue integer, alpha integer)")
     }
     

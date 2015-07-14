@@ -72,7 +72,7 @@ class SettingViewController: UIViewController, UITextFieldDelegate {
         mainview.resetTapped()
         // 保存维度数据到本地SQLite数据库
         // TODO: 现在写入sqlite库还有问题
-        //let usermodel = UserModel()
-        //usermodel.save_dimension(mainview.dimension)
+        let usermodel = UserModel()
+        usermodel.save_dimension(mainview.dimension)
     }
 }
