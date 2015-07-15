@@ -430,10 +430,12 @@ private let SQLITE_TRANSIENT = unsafeBitCast(-1, sqlite3_destructor_type.self)
 			result = CInt(rid)
 		} else if upp.hasPrefix("DELETE") || upp.hasPrefix("UPDATE") {
 			var cnt = sqlite3_changes(self.db)
+            print("change liens: \(cnt), sql=\(sql)")
 			if cnt == 0 {
-				cnt++
-			}
-			result = CInt(cnt)
+				result = -1
+            } else {
+                result = CInt(cnt)
+            }
 		} else {
 			result = 1
 		}

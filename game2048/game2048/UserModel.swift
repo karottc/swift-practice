@@ -23,7 +23,7 @@ class UserModel {
         var uuid_string_ref = CFUUIDCreateString(nil, uuid_ref)
         var uuid:String = NSString(format: uuid_string_ref) as String
         NSUserDefaults.standardUserDefaults().setObject(uuid, forKey: "swift2048bykarottc")
-        print("second uuid \(uuid)")
+        //print("second uuid \(uuid)")
         // 不知道什么原因，现在每次生成的UUID都不一样
         uuid = "E27E608A-7DD9-4DDC-8C1D-64DEBDDDF42E"
         return uuid
@@ -48,44 +48,64 @@ class UserModel {
     }
     
     init() {
-        db = SQLiteDB.sharedInstance("data2.db")
-        //db = SQLiteDB.sharedInstance()
-        db.execute("CREATE table if not exists userdata(userid varchar(64) primary key, dimension integer, maxnum integer, red integer, green integer, blue integer, alpha integer)")
+        //db = SQLiteDB.sharedInstance("data2.db")
+        db = SQLiteDB.sharedInstance()
+        //db.execute("drop table userdata")
+        db.execute("CREATE table if not exists userdata(userid varchar(64) primary key, dimension integer, maxnum integer, red integer, green integer, blue integer, alpha integer, bestscores integer)")
     }
     
     // 获得现在保存的数据
     func get_userdata() -> Dictionary<String, String> {
-        var userid = UserModel.get_uuid()
+        let userid = UserModel.get_uuid()
         let data = db.query("SELECT *FROM userdata WHERE userid='\(userid)'")
-        var row = data[0]
-        var maxnum:Int = row["maxnum"]!.asInt()
-        var dimension:Int = row["dimension"]!.asInt()
-        var red:Double = row["red"]!.asDouble()
-        var green:Double = row["green"]!.asDouble()
-        var blue:Double = row["green"]!.asDouble()
-        var alpha:Double = row["alpha"]!.asDouble()
+        if 0 == data.count {
+            print("data is empty.")
+            return Dictionary<String, String>()
+        }
+        let row = data[0]
+        let maxnum:Int = row["maxnum"]!.asInt()
+        let dimension:Int = row["dimension"]!.asInt()
+        let red:Double = row["red"]!.asDouble()
+        let green:Double = row["green"]!.asDouble()
+        let blue:Double = row["green"]!.asDouble()
+        let alpha:Double = row["alpha"]!.asDouble()
         
-        var dic:Dictionary<String, String> = [
+        let bestscores:Int = row["bestscores"]!.asInt()
+        
+        let dic:Dictionary<String, String> = [
             "maxnum": "\(maxnum)",
             "dimension": "\(dimension)",
             "red": "\(red)",
             "green": "\(green)",
             "blue": "\(blue)",
-            "alpha": "\(alpha)"
+            "alpha": "\(alpha)",
+            "bestscores": "\(bestscores)"
         ]
+        //print(dic)
         return dic
     }
     
     // 保存维度数据
     func save_dimension(dimension:Int) {
         let userid = UserModel.get_uuid()
-        db.execute("UPDATE userdata SET dimension=\(dimension) WHERE userid='\(userid)'")
+        //let sql = "INSERT INTO userdata(userid, dimension) VALUES(
+        let result = db.execute("UPDATE userdata SET dimension=\(dimension) WHERE userid='\(userid)'")
+        //print("update dimension: \(result)")
+        if -1 == result {
+            let sql = "INSERT INTO userdata(userid, dimension) VALUES('\(userid)', \(dimension))"
+            db.execute(sql)
+        }
     }
     
     // 保存过关数据
     func save_maxnum(maxnum:Int) {
         let userid = UserModel.get_uuid()
-        db.execute("UPDATE userdata SET dimension=\(maxnum) WHERE userid='\(userid)'")
+        let result = db.execute("UPDATE userdata SET maxnum=\(maxnum) WHERE userid='\(userid)'")
+        //print("update maxnum: \(result)")
+        if -1 == result {
+            let sql = "INSERT INTO userdata(userid, maxnum) VALUES('\(userid)', \(maxnum))"
+            db.execute(sql)
+        }
     }
     
     // 保存颜色数据
@@ -98,6 +118,17 @@ class UserModel {
         var userid = UserModel.get_uuid()
         
         db.execute("UPDATE userdata SET red=\(red), green=\(green), blue=\(blue), alpha=\(alpha) WHERE userid='\(userid)'")
+    }
+    
+    // 保存最高分
+    func save_bestscores(bestscores:Int) {
+        let userid = UserModel.get_uuid()
+        let result = db.execute("UPDATE userdata SET bestscores=\(bestscores) WHERE userid='\(userid)'")
+        //print("update maxnum: \(result)")
+        if -1 == result {
+            let sql = "INSERT INTO userdata(userid, bestscores) VALUES('\(userid)', \(bestscores))"
+            db.execute(sql)
+        }
     }
     
     deinit {

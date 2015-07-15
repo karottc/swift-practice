@@ -45,7 +45,7 @@ class GameModelMatrix {
     var bestscore:Int = 0
     
     // 由外部传入维度
-    init(dimension:Int, score: ScoreViewProtocol, bestscore:ScoreViewProtocol) {
+    init(dimension:Int, bestscores:Int, score: ScoreViewProtocol, bestscore:ScoreViewProtocol) {
         self.dimension = dimension
         
         self.scoredelegate = score
@@ -53,6 +53,8 @@ class GameModelMatrix {
         
         self.tiles = Matrix(rows: self.dimension, columns: self.dimension)
         self.mtiles = Matrix(rows: self.dimension, columns: self.dimension)
+        
+        self.bestscore = bestscores
     }
     
     func initTiles() {
@@ -331,8 +333,15 @@ class GameModelMatrix {
         if score >= bestscore {
             bestscore = score
             bestscoredelegate.changeScore(value: bestscore)
+            let usermodel = UserModel()
+            usermodel.save_bestscores(bestscore)
         }
         scoredelegate.changeScore(value: score)
+    }
+    
+    deinit {
+        let usermodel = UserModel()
+        usermodel.save_bestscores(bestscore)
     }
     
 }

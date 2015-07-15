@@ -54,7 +54,14 @@ class SettingViewController: UIViewController, UITextFieldDelegate {
         
         self.view.addSubview(segDimension)
         
-        segDimension.selectedSegmentIndex = 1
+        let usermodel = UserModel()
+        let dict = usermodel.get_userdata()
+        let dis = Int(dict["dimension"]!)!
+        if 0 == dis {
+            dis = 4
+        }
+        
+        segDimension.selectedSegmentIndex = dis - 3  // 3.4.5 -> 0, 1, 2
         
         let labelDm = ViewFactory.createLabel("维度：")
         labelDm.frame = CGRect(x: 20, y: 200, width: 60, height: 30)
@@ -72,9 +79,24 @@ class SettingViewController: UIViewController, UITextFieldDelegate {
         mainview.resetTapped()
         // 保存维度数据到本地SQLite数据库
         // TODO: 现在写入sqlite库还有问题
-        let usermodel = UserModel(dimension: mainview.dimension, maxnum: 2048, backgroundColor: UIColor.blueColor())
+        //let usermodel = UserModel(dimension: mainview.dimension, maxnum: 2048, backgroundColor: UIColor.blueColor())
+        let usermodel = UserModel()
         usermodel.save_dimension(mainview.dimension)
-        var dict = usermodel.get_userdata()
+        let dict = usermodel.get_userdata()
         print(dict)
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        print("num changed!")
+        if textField.text != "\(mainview.maxnumber)" {
+            let num = Int(textField.text!)
+            mainview.maxnumber = num!
+        }
+        
+        // 保存过关数据到本地
+        let usermodel = UserModel()
+        usermodel.save_maxnum(mainview.maxnumber)
+        return true
     }
 }

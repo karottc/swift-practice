@@ -34,6 +34,9 @@ class MainViewController : UIViewController {
     var score:ScoreView!
     var bestscore:ScoreView!
     
+    // 最高分
+    var bestscores:Int = 0
+    
     // 保存界面上的数字label
     var tiles: Dictionary<NSIndexPath, TileView>!
     // 保存界面上的值label
@@ -45,6 +48,18 @@ class MainViewController : UIViewController {
         
         self.tiles = Dictionary()
         self.tileVals = Dictionary()
+        
+        let usermodel = UserModel()
+        let dict = usermodel.get_userdata()
+        if 0 != dict.count {
+            self.maxnumber = Int(dict["maxnum"]!)!
+            self.dimension = Int(dict["dimension"]!)!
+            self.bestscores = Int(dict["bestscores"]!)!
+            
+            if 5 == self.dimension {
+                self.width = 100
+            }
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -61,7 +76,7 @@ class MainViewController : UIViewController {
         
         setupScoreLabels()
         
-        self.gmodel = GameModelMatrix(dimension: self.dimension, score:score, bestscore:bestscore)
+        self.gmodel = GameModelMatrix(dimension: self.dimension, bestscores:self.bestscores, score:score, bestscore:bestscore)
         
         for i in 0..<2 {
             genNumber()
@@ -115,7 +130,7 @@ class MainViewController : UIViewController {
         bestscore = ScoreView(stype: ScoreType.Best)
         bestscore.frame.origin.x = 300
         bestscore.frame.origin.y = 80
-        bestscore.changeScore(value: 0)
+        bestscore.changeScore(value: self.bestscores)
         self.view.addSubview(bestscore)
     }
     
