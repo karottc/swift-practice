@@ -40,6 +40,7 @@ class SettingViewController: UIViewController, UITextFieldDelegate {
         txtNum = ViewFactory.createTextField("", action:Selector("numChanged"), sender:self)
         txtNum.frame = CGRect(x: 80, y: 100, width: 200, height: 30)
         txtNum.returnKeyType = UIReturnKeyType.Done
+        txtNum.text = String(mainview.maxnumber)
         
         self.view.addSubview(txtNum)
         
@@ -54,14 +55,7 @@ class SettingViewController: UIViewController, UITextFieldDelegate {
         
         self.view.addSubview(segDimension)
         
-        let usermodel = UserModel()
-        let dict = usermodel.get_userdata()
-        let dis = Int(dict["dimension"]!)!
-        if 0 == dis {
-            dis = 4
-        }
-        
-        segDimension.selectedSegmentIndex = dis - 3  // 3.4.5 -> 0, 1, 2
+        segDimension.selectedSegmentIndex = mainview.dimension - 3  // 3.4.5 -> 0, 1, 2
         
         let labelDm = ViewFactory.createLabel("维度：")
         labelDm.frame = CGRect(x: 20, y: 200, width: 60, height: 30)
@@ -91,6 +85,9 @@ class SettingViewController: UIViewController, UITextFieldDelegate {
         print("num changed!")
         if textField.text != "\(mainview.maxnumber)" {
             let num = Int(textField.text!)
+            if num > mainview.maxnumber {
+                mainview.isSuccess = false
+            }
             mainview.maxnumber = num!
         }
         

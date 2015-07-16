@@ -84,6 +84,21 @@ class GameModelMatrix {
         }
         return false
     }
+    
+    // 找出最大的值，判断是否已经成功
+    func getMaxNum() -> Int {
+        var maxnum:Int = 0
+        for row in 0..<self.dimension {
+            for col in 0..<self.dimension {
+                if maxnum < tiles[row, col] {
+                    maxnum = tiles[row, col]
+                }
+            }
+        }
+        print("当前最大值为：\(maxnum)")
+        return maxnum
+    }
+    
     // 输出当前数据模型
     func printTiles() {
         print(tiles)

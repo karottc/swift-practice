@@ -21,6 +21,8 @@ class MainViewController : UIViewController {
     var dimension:Int = 4
     // 游戏过关数值
     var maxnumber:Int = 2048
+    // 是否过关
+    var isSuccess:Bool = false
     
     // 数字格子的宽度
     var width:CGFloat = 150
@@ -192,15 +194,19 @@ class MainViewController : UIViewController {
     }
     
     func reGenUI() {
-        //self.viewMain.resetUI()
-        
         self.initUI()
-        //for i in 0..<2 {
-        //    if 0 == self.genNumber() {
-        //        break
-        //    }
-        //}
-        genNumber()
+        
+        if isSuccess == false && self.maxnumber == self.gmodel.getMaxNum() {
+            isSuccess = true
+            // 弹框提示已经成功
+            let message = "恭喜过关！！ 可以点击下面按钮继续冲击更高的分数！"
+            let alertController = UIAlertController(title: "成功！", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+            alertController.addAction(UIAlertAction(title: "Go on !", style: UIAlertActionStyle.Default, handler: nil))
+            self.presentViewController(alertController, animated:true, completion: nil)
+        } else {
+            genNumber()
+        }
+        
     }
     
     func genNumber() -> Int {
