@@ -60,6 +60,14 @@ class URLData: NSObject, NSURLConnectionDataDelegate {
         let task = urlSession.dataTaskWithURL(url, completionHandler: getURLData2)
         task?.resume()
     }
+    func getStoryDetail(id:Int) {
+        print("==================next list=================id=\(id)")
+        let urlString:String = "http://104.128.85.9:8001/api/getstorydetail?id=" + String(id)
+        let url:NSURL = NSURL(string: urlString)!
+        let urlSession:NSURLSession = NSURLSession.sharedSession()
+        let task = urlSession.dataTaskWithURL(url, completionHandler: getStoryData)
+        task?.resume()
+    }
     
     func getURLData(response:NSURLResponse?, data:NSData?, error:NSError?) -> Void {
         if error != nil {
@@ -117,5 +125,41 @@ class URLData: NSObject, NSURLConnectionDataDelegate {
             print("********************************")
         }
         self.id = json.objectForKey("stories")?.objectAtIndex(number-1).objectForKey("timestamp") as! Int
+        let today = json.objectForKey("stories")?.objectAtIndex(0).objectForKey("id") as! Int
+        getStoryDetail(today)
+    }
+    
+    func getStoryData(data:NSData?, response:NSURLResponse?, error:NSError?) -> Void {
+        print("-------------url detail session---------")
+        if error != nil {
+            print("error")
+            return
+        }
+        
+        var json:AnyObject
+        do {
+            json = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)
+        } catch {
+            print("story detail exception.")
+            return
+        }
+        
+        let quest_num:Int = json.objectForKey("question_num") as! Int
+        for i in 0..<quest_num {
+            let question_title:String = json.objectForKey("stories")?.objectAtIndex(i).objectForKey("question_title") as! String
+            print("question: \(question_title)")
+            let answer_num:Int = json.objectForKey("stories")?.objectAtIndex(i).objectForKey("answer_num") as! Int
+            for j in 0..<answer_num {
+                let author:String = json.objectForKey("stories")?.objectAtIndex(i).objectForKey("answers")?.objectAtIndex(j).objectForKey("author") as! String
+                let bio:String = json.objectForKey("stories")?.objectAtIndex(i).objectForKey("answers")?.objectAtIndex(j).objectForKey("bio") as! String
+                let answer:String = json.objectForKey("stories")?.objectAtIndex(i).objectForKey("answers")?.objectAtIndex(j).objectForKey("answer") as! String
+                print("author: \(author), \(bio)")
+                print("answer: \(answer)")
+                print("--------------------------")
+            }
+            let viewmore:String = json.objectForKey("stories")?.objectAtIndex(i).objectForKey("viewmore") as! String
+            print("viewmore: \(viewmore)")
+            print("************************************************************************")
+        }
     }
 }

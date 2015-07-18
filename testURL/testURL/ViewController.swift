@@ -15,10 +15,10 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         let url = URLData()
         url.getHomeList2()
-        sleep(2)   // 网络请求是异步的
-        print("----------------------------------timestamp=\(url.id)")
+        //sleep(2)   // 网络请求是异步的
+        //print("----------------------------------timestamp=\(url.id)")
         //url.getNextList(1436311798)
-        url.getNextList(url.id)
+        //url.getNextList(url.id)
     }
 
     override func didReceiveMemoryWarning() {
